@@ -95,7 +95,7 @@ def gradient_descent(x, y, w_in, b_in, alpha, num_iters, cost_function, gradient
         # Calculate the gradient and update the parameters using gradient_function
         dj_dw, dj_db = gradient_function(x, y, w , b)     
 
-        # Update Parameters using equation (3) above
+        # Update Parameters
         b = b - alpha * dj_db                            
         w = w - alpha * dj_dw                            
 
@@ -103,6 +103,7 @@ def gradient_descent(x, y, w_in, b_in, alpha, num_iters, cost_function, gradient
         if i<100000:      # prevent resource exhaustion 
             J_history.append( cost_function(x, y, w , b))
             p_history.append([w,b])
+
         # Print cost every at intervals 10 times or as many iterations if < 10
         if i% math.ceil(num_iters/10) == 0:
             print(f"Iteration {i:4}: Cost {J_history[-1]:0.2e} ",
@@ -114,6 +115,7 @@ def gradient_descent(x, y, w_in, b_in, alpha, num_iters, cost_function, gradient
 # initialize parameters
 w_init = 0
 b_init = 0
+
 # some gradient descent settings
 iterations = 10000
 tmp_alpha = 1.0e-2
@@ -131,6 +133,8 @@ print(f"(w,b) found by gradient descent: ({w_final:8.4f},{b_final:8.4f})")
 # it is useful to plot the initial decent on a different scale than the final descent. 
 # In the plots below, note the scale of cost on the axes and the iteration step.
 # plot cost versus iteration  
+
+'''
 fig, (ax1, ax2) = plt.subplots(1, 2, constrained_layout=True, figsize=(12,4))
 ax1.plot(J_hist[:100])
 ax2.plot(1000 + np.arange(len(J_hist[1000:])), J_hist[1000:])
@@ -138,6 +142,7 @@ ax1.set_title("Cost vs. iteration(start)");  ax2.set_title("Cost vs. iteration (
 ax1.set_ylabel('Cost')            ;  ax2.set_ylabel('Cost') 
 ax1.set_xlabel('iteration step')  ;  ax2.set_xlabel('iteration step') 
 plt.show()
+'''
 
 # Some Predictions
 print(f"1000 sqft house prediction {w_final*1.0 + b_final:0.1f} Thousand dollars")
