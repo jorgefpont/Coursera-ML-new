@@ -7,29 +7,39 @@ import math, copy
 import numpy as np
 import matplotlib.pyplot as plt
 
-# # Problem Statement# 
-# Let's use the same two data points as before - 
-# a house with 1000 square feet sold for \\$300,000 
-# and a house with 2000 square feet sold for \\$500,000.
 # Load our data set
 x_train = np.array([1.0, 2.0])   #features
 y_train = np.array([300.0, 500.0])   #target value
+#x_train = np.array([1.0, 1.7, 2.0, 2.5, 3.0, 3.2])
+#y_train = np.array([250, 300, 480,  430,   630, 730,])
 
 # You will implement gradient descent algorithm for one feature. You will need three functions. 
-# - `compute_gradient` implementing equation (4) and (5) above
-# - `compute_cost` implementing equation (2) above (code from previous lab)
-# - `gradient_descent`, utilizing compute_gradient and compute_cost
+# - compute_cost
+# - compute_gradient
+# - gradient_descent, utilizing compute_gradient and compute_cost
 
-# Compute_Cost
+# Compute Cost
 # vectorized form
 def compute_cost(x, y, w, b):
-   
-    m = x.shape[0] 
+    """
+    Computes the cost function for linear regression.
+    
+    Args:
+      x (ndarray (m,)): Data, m examples 
+      y (ndarray (m,)): target values
+      w,b (scalar)    : model parameters  
+    
+    Returns
+        total_cost (float): The cost of using w,b as the parameters for linear regression
+        to fit the data points in x and y
+    """
+    m = x.shape[0]  # number of training examples
     f_wb = (w * x) + b  # a vector
     total_cost = (1 / (2 * m)) * np.sum((f_wb - y)**2)
     return total_cost
 
 # Compute Gradient
+# vectorized
 def compute_gradient(x, y, w, b): 
     """
     Computes the gradient for linear regression 
@@ -42,20 +52,14 @@ def compute_gradient(x, y, w, b):
       dj_db (scalar): The gradient of the cost w.r.t. the parameter b     
      """
     
-    # Number of training examples
-    m = x.shape[0]    
-    dj_dw = 0
-    dj_db = 0
+    m = x.shape[0]  # Number of training examples
+
+    f_wb = w * x + b 
+    error = f_wb - y
     
-    for i in range(m):  
-        f_wb = w * x[i] + b 
-        dj_dw_i = (f_wb - y[i]) * x[i] 
-        dj_db_i = f_wb - y[i] 
-        dj_db += dj_db_i
-        dj_dw += dj_dw_i 
-    dj_dw = dj_dw / m 
-    dj_db = dj_db / m 
-        
+    dj_dw = (1/m) * np.sum(np.dot(error, x))
+    dj_db = (1/m) * np.sum(error)
+
     return dj_dw, dj_db
 
 # Gradient Descent
