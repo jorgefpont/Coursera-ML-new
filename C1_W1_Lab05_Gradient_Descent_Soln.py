@@ -21,16 +21,12 @@ y_train = np.array([300.0, 500.0])   #target value
 # - `gradient_descent`, utilizing compute_gradient and compute_cost
 
 # Compute_Cost
+# vectorized form
 def compute_cost(x, y, w, b):
    
     m = x.shape[0] 
-    cost = 0
-    
-    for i in range(m):
-        f_wb = w * x[i] + b
-        cost = cost + (f_wb - y[i])**2
-    total_cost = 1 / (2 * m) * cost
-
+    f_wb = (w * x) + b  # a vector
+    total_cost = (1 / (2 * m)) * np.sum((f_wb - y)**2)
     return total_cost
 
 # Compute Gradient
